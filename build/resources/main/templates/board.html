@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 페이지</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+    <script th:src="@{/js/board.js}"></script>
+    <link th:href="@{/css/board.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>환영합니다!</h1>
+        <p>JWT 인증을 통한 인가 시스템을 익히기 위한 페이지입니다.</p>
+        <div id="member-info"></div> <!-- 사용자 정보가 표시될 곳 -->
+
+        <!-- 로그인 및 회원가입 버튼 (로그인 상태에 따라 표시됨) -->
+        <div id="auth-buttons">
+            <button id="login-btn">로그인</button>
+            <button id="signup-btn">회원가입</button>
+        </div>
+
+        <!-- 로그아웃 버튼 (로그인 시에만 표시됨) -->
+        <button id="logout-btn" style="display: none;" onclick="handleLogout();">로그아웃</button>
+    </header>
+
+    <main>
+        <h2>메인 콘텐츠</h2>
+        <div id="admin-content" style="display: none;">
+            <p>관리자만 볼 수 있는 콘텐츠입니다.</p>
+        </div>
+        <div id="member-content">
+            <p>모든 사용자에게 보여지는 콘텐츠입니다.</p>
+        </div>
+        <button id="restricted-btn">제한된 콘텐츠 보기</button>
+    </main>
+</div>
+</body>
+</html>
