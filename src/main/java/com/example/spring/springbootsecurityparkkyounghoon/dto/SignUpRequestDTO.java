@@ -1,6 +1,5 @@
 package com.example.spring.springbootsecurityparkkyounghoon.dto;
 
-import com.example.spring.springbootsecurityparkkyounghoon.enums.Role;
 import com.example.spring.springbootsecurityparkkyounghoon.model.Member;
 import lombok.Getter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,7 +15,6 @@ public class SignUpRequestDTO {
                 .userId(userId)
                 .password(bCryptPasswordEncoder.encode(password))
                 .userName(userName)
-                .role(Role.ROLE_USER) // 기본 역할을 ROLE_USER로 설정
                 .build();
     }
 }

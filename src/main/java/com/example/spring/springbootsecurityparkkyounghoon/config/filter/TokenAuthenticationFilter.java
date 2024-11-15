@@ -39,7 +39,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             Member member = tokenProvider.getTokenDetails(token);
-            request.setAttribute("user", member);
+            request.setAttribute("member", member);
 
         } else if (validateToken == 2) {
             System.out.println(requestURI + " : " + validateToken);

@@ -174,3 +174,82 @@ button:focus {
         font-size: 14px;
     }
 }
+
+/* 기존 CSS 유지 */
+
+/* 콘텐츠 박스 스타일 */
+.content-box {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: left;
+}
+
+.content-box h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+/* 관리자 콘텐츠 스타일 */
+.admin-content {
+    background-color: #e6f3ff;
+    border: 2px solid #007bff;
+}
+
+.admin-content h3 {
+    color: #007bff;
+}
+
+/* 일반 사용자 콘텐츠 스타일 */
+.member-content {
+    background-color: #f0f0f0;
+    border: 2px solid #6c757d;
+}
+
+.member-content h3 {
+    color: #6c757d;
+}
+
+/* 컨테이너 너비 조정 */
+.container {
+    width: 400px;
+    max-width: 90%;
+}
+
+/* 버튼 스타일 수정 */
+button {
+    width: auto;
+    padding: 10px 20px;
+    margin-top: 10px;
+}
+
+#restricted-btn {
+    background-color: #28a745;
+}
+
+#restricted-btn:hover {
+    background-color: #218838;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .content-box {
+        padding: 10px;
+    }
+
+    .content-box h3 {
+        font-size: 16px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}
+
+

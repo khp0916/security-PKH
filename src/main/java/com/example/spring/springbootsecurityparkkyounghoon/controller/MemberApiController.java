@@ -66,7 +66,9 @@ public class MemberApiController {
 
     @GetMapping("/user/info")
     public ResponseEntity<UserInfoResponseDTO> getUserInfo(HttpServletRequest request) {
+        System.out.println("request ::" + request);
         Member member = (Member) request.getAttribute("member");
+        System.out.println("member ::" + member);
         return ResponseEntity.ok(
                 UserInfoResponseDTO.builder()
                         .id(member.getId())
@@ -91,4 +93,3 @@ public class MemberApiController {
         }
     }
 }
-

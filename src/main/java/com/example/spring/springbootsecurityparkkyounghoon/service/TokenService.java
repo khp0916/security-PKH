@@ -21,6 +21,7 @@ public class TokenService {
         if (refreshToken != null && tokenProvider.validateToken(refreshToken) == 1) {
 
             Member member = tokenProvider.getTokenDetails(refreshToken);
+            System.out.println("TokenService member ::" + member);
 
             // Access Token
             String newAccessToken = tokenProvider.generateToken(member, Duration.ofHours(2));

@@ -40,20 +40,28 @@ function updateUIForLoggedOutState() {
     $('#member-info').empty();
     $('#logout-btn').hide();
     $('#admin-content').hide();
+    $('#restricted-btn').show();
 }
 
-// 로그인시 보여줄 UI
-function showUserInfo(userInfo) {
-    console.log('Received user info:', userInfo); // 디버깅용
+// 사용자 정보에 따라 UI를 업데이트하는 함수
+function updateUIBasedOnUserRole(userInfo) {
     $('#auth-buttons').hide();
     $('#member-info').html(`<p>로그인 사용자: ${userInfo.userName || 'Unknown'}</p>`);
     $('#logout-btn').show();
 
     if (userInfo.role === 'ROLE_ADMIN') {
         $('#admin-content').show();
+        $('#restricted-btn').hide();
     } else {
         $('#admin-content').hide();
+        $('#restricted-btn').show();
     }
+}
+
+// 로그인시 보여줄 UI
+function showUserInfo(userInfo) {
+    console.log('Received user info:', userInfo); // 디버깅용
+    updateUIBasedOnUserRole(userInfo);
 }
 
 // 이벤트 리스너 설정
@@ -71,9 +79,18 @@ function handleLogout() {
         url: '/logout',
         contentType: 'application/json; charset=utf-8',
         success: (response) => {
-            alert(response.message);
+            if (response && response.message) {
+                alert(response.message);
+            } else {
+                alert('로그아웃되었습니다.');
+            }
             localStorage.removeItem('accessToken');
-            navigateTo(response.url);
+            localStorage.removeItem('refreshToken'); // refreshToken도 제거
+            if (response && response.url) {
+                navigateTo(response.url);
+            } else {
+                navigateTo('/'); // 기본 리다이렉트 URL
+            }
         },
         error: (error) => {
             console.log('logout 오류 발생 :: ', error);
@@ -144,19 +161,27 @@ function getUserInfo(token) {
 // Role 이 ADMIN 일때 접근할 수 있는 콘텐츠
 function handleRestrictedAccess() {
     const token = localStorage.getItem("accessToken");
-    if (token) {
-        getUserInfo(token)
-            .then(userInfo => {
-                if (userInfo.role === 'ROLE_ADMIN') {
-                    $('#admin-content').show();
-                } else {
-                    alert('관리자만 접근할 수 있는 콘텐츠입니다.');
-                    $('#admin-content').hide();
-                }
-            })
-            .catch(handleTokenExpiration);
-    } else {
+    if (!token) {
         alert('로그인이 필요합니다.');
         navigateTo('/member/login');
+        return;
     }
+
+    if (isTokenExpired(token)) {
+        handleTokenExpiration();
+        return;
+    }
+
+    getUserInfo(token)
+        .then(userInfo => {
+            if (userInfo.role === 'ROLE_ADMIN') {
+                updateUIBasedOnUserRole(userInfo);
+            } else {
+                alert('관리자만 접근할 수 있는 콘텐츠입니다.');
+            }
+        })
+        .catch(error => {
+            console.error('Error getting user info:', error);
+            handleTokenExpiration();
+        });
 }
